@@ -37,6 +37,8 @@ document.getElementById('convertButton').addEventListener('click', function () {
 
     const spinnerContainer = document.getElementById('spinnerContainer');
     spinnerContainer.style.display = 'block';
+    const controls = document.getElementById('controls-container');
+    controls.style.display = 'none';
 
     const reader = new FileReader();
     reader.onload = function (event) {
@@ -88,6 +90,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
             fullCArray = fullCArray.replace(/,\n$/, '\n};');
             outputTextArea.value = fullCArray.length > 10000 ? fullCArray.substring(0, 10000) + '...\n' + '...' : fullCArray;
             spinnerContainer.style.display = 'none';
+            controls.style.display = 'block';
         };
 
         img.src = event.target.result;

@@ -15,15 +15,17 @@
         <div id="thumbnailContainer" class="thumbnail-container">
             <img id="thumbnail" src="dd.webp" alt="Placeholder Image" class="thumbnail">
         </div>
-        <select id="formatSelect" class="dropdown">
-            <option value="RGBA8888">RGBA8888</option>
-            <option value="ARGB8888">ARGB8888</option>
-            <option value="RGB565A8">RGB565A8</option>
-            <option value="RGB565">RGB565</option>
-            <option value="RGB888">RGB888</option>
-        </select>
-        <button id="convertButton" class="button">Convert to C Array</button>
-        <button id="copyButton" class="button">Copy to Clipboard</button>
+        <div id="controls-container">
+            <select id="formatSelect" class="dropdown">
+                <option value="RGBA8888">RGBA8888</option>
+                <option value="ARGB8888">ARGB8888</option>
+                <option value="RGB565A8">RGB565A8</option>
+                <option value="RGB565">RGB565</option>
+                <option value="RGB888">RGB888</option>
+            </select>
+            <button id="convertButton" class="button">Convert to C Array</button>
+            <button id="copyButton" class="button">Copy to Clipboard</button>
+        </div>
         <div id="spinnerContainer" class="spinner-container">
             <img src="spinner.gif" alt="Processing..." class="spinner">
         </div>
