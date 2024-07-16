@@ -1,4 +1,4 @@
-let fullCArray = '';
+let output = '';
 
 document.getElementById('imageInput').addEventListener('change', handleFileSelect);
 
@@ -34,6 +34,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
 
     outputTextArea = document.getElementById('cArrayOutput');
     outputTextArea.value = "";
+    output = "";
 
     const spinnerContainer = document.getElementById('spinnerContainer');
     spinnerContainer.style.display = 'block';
@@ -52,43 +53,56 @@ document.getElementById('convertButton').addEventListener('click', function () {
 
             const imageData = ctx.getImageData(0, 0, img.width, img.height);
             const data = imageData.data;
-            fullCArray = 'unsigned char image[] = {\n';
 
+
+            output = `static const struct {
+    unsigned int width;
+    unsigned int height;
+    unsigned int bytes_per_pixel; // ${format} format
+    unsigned char data[${img.width} * ${img.height} * ${format === 'RGB565' || format === 'RGB565A8' ? 2 : format === 'RGB888' ? 3 : 4}];
+} image = {
+    ${img.width}, ${img.height}, ${format === 'RGB565' || format === 'RGB565A8' ? 2 : format === 'RGB888' ? 3 : 4},
+    {
+`;
             for (let i = 0; i < data.length; i += 4) {
+                output += "        ";
                 switch (format) {
                     case 'RGBA8888':
-                        fullCArray += `0x${data[i].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 2].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 3].toString(16).padStart(2, '0')},\n`;
+                        output += `0x${data[i].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 2].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 3].toString(16).padStart(2, '0')},\n`;
                         break;
                     case 'ARGB8888':
-                        fullCArray += `0x${data[i + 3].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 2].toString(16).padStart(2, '0')},\n`;
+                        output += `0x${data[i + 3].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 2].toString(16).padStart(2, '0')},\n`;
                         break;
                     case 'RGB565A8':
                         let rgb565 = ((data[i] & 0xf8) << 8) | ((data[i + 1] & 0xfc) << 3) | (data[i + 2] >> 3);
-                        fullCArray += `0x${(rgb565 >> 8).toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${(rgb565 & 0xff).toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 3].toString(16).padStart(2, '0')},\n`;
+                        output += `0x${(rgb565 >> 8).toString(16).padStart(2, '0')}, `;
+                        output += `0x${(rgb565 & 0xff).toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 3].toString(16).padStart(2, '0')},\n`;
                         break;
                     case 'RGB565':
                         let rgb565only = ((data[i] & 0xf8) << 8) | ((data[i + 1] & 0xfc) << 3) | (data[i + 2] >> 3);
-                        fullCArray += `0x${(rgb565only >> 8).toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${(rgb565only & 0xff).toString(16).padStart(2, '0')},\n`;
+                        output += `0x${(rgb565only >> 8).toString(16).padStart(2, '0')}, `;
+                        output += `0x${(rgb565only & 0xff).toString(16).padStart(2, '0')},\n`;
                         break;
                     case 'RGB888':
-                        fullCArray += `0x${data[i].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
-                        fullCArray += `0x${data[i + 2].toString(16).padStart(2, '0')},\n`;
+                        output += `0x${data[i].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 1].toString(16).padStart(2, '0')}, `;
+                        output += `0x${data[i + 2].toString(16).padStart(2, '0')},\n`;
                         break;
                 }
             }
 
-            fullCArray = fullCArray.replace(/,\n$/, '\n};');
-            outputTextArea.value = fullCArray.length > 10000 ? fullCArray.substring(0, 10000) + '...\n' + '...' : fullCArray;
+            output = output.replace(/,\n$/, '\n');
+            output += `    }
+};`;
+
+            outputTextArea.value = output.length > 10000 ? output.substring(0, 10000) + '...\n' + '...' : output;
             spinnerContainer.style.display = 'none';
             controls.style.display = 'block';
         };
@@ -100,7 +114,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
 });
 
 document.getElementById('copyButton').addEventListener('click', function () {
-    navigator.clipboard.writeText(fullCArray);
+    navigator.clipboard.writeText(output);
     alert('C array copied to clipboard!');
 });
 
