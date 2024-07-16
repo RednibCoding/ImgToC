@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to C Array Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Image to C Array Converter</h1>
+        <p class="muted">Supported image types: PNG, JPEG, GIF, BMP, TIFF</p>
+        <input type="file" id="imageInput" accept="image/png, image/jpeg, image/gif, image/bmp, image/tiff" style="display: none;">
+        <label for="imageInput" class="button">Choose Image</label>
+        <div id="thumbnailContainer" class="thumbnail-container">
+            <img id="thumbnail" src="dd.webp" alt="Placeholder Image" class="thumbnail">
+        </div>
+        <select id="formatSelect" class="dropdown">
+            <option value="RGBA8888">RGBA8888</option>
+            <option value="ARGB8888">ARGB8888</option>
+            <option value="RGB565A8">RGB565A8</option>
+            <option value="RGB565">RGB565</option>
+            <option value="RGB888">RGB888</option>
+        </select>
+        <button id="convertButton" class="button">Convert to C Array</button>
+        <button id="copyButton" class="button">Copy to Clipboard</button>
+        <div id="spinnerContainer" class="spinner-container">
+            <img src="spinner.gif" alt="Processing..." class="spinner">
+        </div>
+        <textarea id="cArrayOutput" rows="20" cols="80" readonly></textarea>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
