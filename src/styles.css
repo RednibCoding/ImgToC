@@ -93,6 +93,14 @@ textarea {
     box-sizing: border-box;
 }
 
+textarea::selection {
+    background-color: transparent;
+}
+ 
+ .noselect:focus {
+    outline: none;
+ }
+
 .spinner-container {
     display: none;
     margin: 20px auto;

@@ -4,6 +4,9 @@ document.getElementById('imageInput').addEventListener('change', handleFileSelec
 
 function handleFileSelect(event) {
     const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
     displayThumbnail(file);
 }
 
@@ -28,6 +31,9 @@ document.getElementById('convertButton').addEventListener('click', function () {
         alert('Please select an image file.');
         return;
     }
+
+    outputTextArea = document.getElementById('cArrayOutput');
+    outputTextArea.value = "";
 
     const spinnerContainer = document.getElementById('spinnerContainer');
     spinnerContainer.style.display = 'block';
@@ -80,7 +86,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
             }
 
             fullCArray = fullCArray.replace(/,\n$/, '\n};');
-            document.getElementById('cArrayOutput').value = fullCArray.length > 10000 ? fullCArray.substring(0, 10000) + '...\n' + '...' : fullCArray;
+            outputTextArea.value = fullCArray.length > 10000 ? fullCArray.substring(0, 10000) + '...\n' + '...' : fullCArray;
             spinnerContainer.style.display = 'none';
         };
 
@@ -112,6 +118,19 @@ document.getElementById('thumbnailContainer').addEventListener('drop', function 
     e.stopPropagation();
     this.classList.remove('dragging');
     const file = e.dataTransfer.files[0];
+    if (!file) {
+        return;
+    }
     document.getElementById('imageInput').files = e.dataTransfer.files;
     displayThumbnail(file);
+});
+
+document.getElementById('cArrayOutput').addEventListener('copy', function (e) {
+    e.preventDefault();
+});
+document.getElementById('cArrayOutput').addEventListener('cut', function (e) {
+    e.preventDefault();
+});
+document.getElementById('cArrayOutput').addEventListener('paste', function (e) {
+    e.preventDefault();
 });
