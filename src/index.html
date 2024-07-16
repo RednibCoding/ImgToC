@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to C Array Converter</title>
+    <title>Image to C Converter</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.png">
 </head>
 <body>
     <div class="container">
-        <h1>Image to C Array Converter</h1>
+        <h1>Image to C Converter</h1>
+        <p class="muted">Convert images to C source code</p>
         <p class="muted">Supported image types: PNG, JPEG, GIF, BMP, TIFF</p>
         <input type="file" id="imageInput" accept="image/png, image/jpeg, image/gif, image/bmp, image/tiff" style="display: none;">
         <label for="imageInput" class="button">Choose Image</label>
@@ -23,14 +25,14 @@
                 <option value="RGB565">RGB565</option>
                 <option value="RGB888">RGB888</option>
             </select>
-            <button id="convertButton" class="button">Convert to C Array</button>
+            <button id="convertButton" class="button">Convert to C</button>
             <button id="copyButton" class="button">Copy to Clipboard</button>
         </div>
         <div id="spinnerContainer" class="spinner-container">
             <img src="spinner.gif" alt="Processing..." class="spinner">
         </div>
         <textarea id="cArrayOutput" class="noselect" rows="20" cols="80" readonly disabled="disabled"></textarea>
-        <a href="https://github.com/RednibCoding/ImgToC/issues/new" class="muted">Found a bug or errors? Please open an issue on Github</a>
+        <a href="https://github.com/RednibCoding/ImgToC/issues/new" class="muted">Found a bug or errors? Please open an issue on Github.</a>
     </div>
     <script src="script.js"></script>
 </body>
