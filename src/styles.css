@@ -94,12 +94,9 @@ textarea {
 }
 
 textarea::selection {
-    background-color: transparent;
+    background-color: #007bff;
+    color: white;
 }
- 
- .noselect:focus {
-    outline: none;
- }
 
 #controls-container {
     height: 80px;
